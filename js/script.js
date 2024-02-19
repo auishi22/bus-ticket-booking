@@ -121,137 +121,67 @@ function disableCouponInput() {
   disableField.disabled = true;
 }
 
-// Get references to the buttons and the modal
-const nextButton = document.getElementById("nextButton");
-const closeModalButton = document.getElementById("closeModalButton");
-const modal = document.getElementById("my_modal_4");
 
-// Add event listener to the "Next" button to open the modal
-nextButton.addEventListener("click", () => {
-  modal.showModal();
-});
-
-// Add event listener to the "Close" button inside the modal to close it
-closeModalButton.addEventListener("click", () => {
-  modal.close();
-});
-
-// Function to handle clicking the "Continue" button inside the modal
-nextButton.addEventListener("click", () => {
-  // Get a reference to the "Continue" button inside the modal
-  //   const continueButton = document.getElementById("closeModalButton");
-  closeModalButton.addEventListener("click", () => {
-    const passengerNameInput = document.getElementById("passengerName");
-    const phoneNumberInput = document.getElementById("phoneNumber");
-    const emailInput = document.getElementById("email");
-
-    if (
-      passengerNameInput.checkValidity() &&
-      phoneNumberInput.checkValidity() &&
-      emailInput.checkValidity()
-    ) {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      setTimeout(() => {
-        window.location.reload();
-      }, 500);
-    }
-    
-  });
-});
-
-// Function to handle form verification
-document.addEventListener("DOMContentLoaded", function () {
-  const nextButton = document.getElementById("nextButton");
-  const myModal = document.getElementById("my_modal_4");
-
-  nextButton.addEventListener("click", function () {
-    const passengerNameInput = document.getElementById("passengerName");
-    const phoneNumberInput = document.getElementById("phoneNumber");
-    const emailInput = document.getElementById("email");
-
-    if (
-      !passengerNameInput.checkValidity() ||
-      !phoneNumberInput.checkValidity() ||
-      !emailInput.checkValidity()
-    ) {
-      showAlert("Please enter valid information.");
-      myModal.close;
-      return;
-    }
-
-    myModal.showModal;
-  });
-
-  const closeModalButton = document.getElementById("closeModalButton");
-  closeModalButton.addEventListener("click", function () {
-    myModal.close;
-  });
-});
-
-// Function to show an alert message
-function showAlert(message) {
-  alert(message);
-}
 // Get a reference to the "Continue" button
-// const continueButton = document.getElementById("closeModalButton");
+const continueButton = document.getElementById("closeModalButton");
 
 // Add event listener to the "Continue" button to reload the page when clicked
-// continueButton.addEventListener("click", () => {
-//   // window.location.reload();
-//   window.scrollTo({ top: 0, behavior: "smooth" });
-//   if (
-//     passengerNameInput.checkValidity() &&
-//     phoneNumberInput.checkValidity() &&
-//     emailInput.checkValidity()
-//   ) {
-//     // If all fields are valid, reload the page after a delay
-//     window.scrollTo({ top: 0, behavior: "smooth" });
-//     setTimeout(() => {
-//       window.location.reload();
-//     }, 700);
-//   }
-// });
+continueButton.addEventListener("click", () => {
+  // window.location.reload();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  if (
+    passengerNameInput.checkValidity() &&
+    phoneNumberInput.checkValidity() &&
+    emailInput.checkValidity()
+  ) {
+    // If all fields are valid, reload the page after a delay
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setTimeout(() => {
+      window.location.reload();
+    }, 700);
+  }
+});
 
 // form varification
-// document.addEventListener("DOMContentLoaded", function () {
-//   const nextButton = document.getElementById("nextButton");
-//   const passengerNameInput = document.getElementById("passengerName");
-//   const phoneNumberInput = document.getElementById("phoneNumber");
-//   const emailInput = document.getElementById("email");
-//   const bookingForm = document.getElementById("bookingForm");
-//   const myModal = document.getElementById("my_modal_4");
+document.addEventListener("DOMContentLoaded", function () {
+  const nextButton = document.getElementById("nextButton");
+  const passengerNameInput = document.getElementById("passengerName");
+  const phoneNumberInput = document.getElementById("phoneNumber");
+  const emailInput = document.getElementById("email");
+  const bookingForm = document.getElementById("bookingForm");
+  const myModal = document.getElementById("my_modal_4");
 
-//   nextButton.addEventListener("click", function (event) {
-//     // Check if all fields are valid
-//     if (!passengerNameInput.checkValidity()) {
-//       showAlert("Please enter a valid name (only letters and spaces).");
-//       myModal.close();
-//       return;
+  nextButton.addEventListener("click", function (event) {
+    // Check if all fields are valid
+    if (!passengerNameInput.checkValidity()) {
+      showAlert("Please enter a valid name (only letters and spaces).");
+      myModal.close();
+      return;
 
-//     }
+    }
 
-//     if (!phoneNumberInput.checkValidity()) {
-//       alert("Please enter a valid phone number (10 digits).");
-//       myModal.close();
-//       return;
+    if (!phoneNumberInput.checkValidity()) {
+      alert("Please enter a valid phone number (10 digits).");
+      myModal.close();
+      return;
 
-//     }
+    }
 
-//     if (!emailInput.checkValidity()) {
-//       alert("Please enter a valid email address.");
-//       myModal.close();
-//       return;
+    if (!emailInput.checkValidity()) {
+      alert("Please enter a valid email address.");
+      myModal.close();
+      return;
 
-//     }
+    }
 
-//     // If all fields are valid, show the modal
-//     else{ myModal.showModal();}
+    // If all fields are valid, show the modal
+    else{ myModal.showModal();}
 
-//   });
+  });
 
-//   // Close the modal when the "Continue" button is clicked
-//   const closeModalButton = document.getElementById("closeModalButton");
-//   closeModalButton.addEventListener("click", function () {
-//     myModal.close();
-//   });
-// });
+  // Close the modal when the "Continue" button is clicked
+  const closeModalButton = document.getElementById("closeModalButton");
+  closeModalButton.addEventListener("click", function () {
+    myModal.close();
+  });
+});

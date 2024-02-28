@@ -19,6 +19,16 @@ function addBookingEntry(seatNo, classType, price) {
 
   bookingContainer.appendChild(bookingEntry);
 }
+// booking remove
+function removeBookingEntry(seatNo) {
+  const bookingEntries = bookingContainer.querySelectorAll(".flex");
+  bookingEntries.forEach((entry) => {
+    const entrySeatNo = entry.querySelector("h5:nth-child(1)").textContent;
+    if (entrySeatNo === seatNo) {
+      entry.remove();
+    }
+  });
+}
 
 // updated total price of tickets
 function updateTotalPrice() {
@@ -39,31 +49,6 @@ function updateBookedSeatsDisplay() {
   seatBookingNo.textContent = seatBooked.toString();
 }
 
-function clickToBookSeat() {
-  seats.forEach((seat) => {
-    // Get the seat number from the inner text
-    const seatNo = seat.innerText;
-    // Add background color to the clicked seat
-    seat.addEventListener("click", () => {
-      if (seatBooked < 4) {
-        const seatNo = seat.innerText;
-        const classType = "Economy";
-        const price = "550";
-        addBookingEntry(seatNo, classType, price);
-        addBgColorById(seatNo);
-        seatBooked++;
-        calculateTotalPrice();
-        updateTotalPrice();
-        updateBookedSeatsDisplay();
-        updateGrandTotal(0);
-        updateAvaiableSeats();
-      } else {
-        alert("You cannot book more than 4 seats!");
-      }
-    });
-  });
-}
-
 // updated avaiable seats
 function updateAvaiableSeats() {
   const avaiableSeats = document.getElementById("available-seats");
@@ -82,6 +67,54 @@ function addBgColorById(elementId) {
   const bookSeat = document.getElementById(elementId);
   const booked = bookSeat.classList.add("bg-[#1DD100]");
 }
+// remove bg color
+function removeBgColorById(elementId) {
+  const seat = document.getElementById(elementId);
+  seat.classList.remove("bg-[#1DD100]");
+}
+function clickToBookSeat() {
+  seats.forEach((seat) => {
+    // Get the seat number from the inner text
+    const seatNo = seat.innerText;
+    // Add background color to the clicked seat
+    seat.addEventListener("click", () => {
+      const seatNo = seat.innerText;
+      const classType = "Economy";
+      const price = "550";
+      
+      if (seat.classList.contains("selected")) {
+        
+        // If the seat is already selected, deselect it
+        removeBookingEntry(seatNo); // Remove booking entry
+        removeBgColorById(seatNo); // Remove background color
+        seatBooked--;
+        updateTotalPrice();
+        updateBookedSeatsDisplay();
+        updateGrandTotal(0);
+        updateAvaiableSeats();
+        seat.classList.remove("selected");
+      } else {
+        // If the seat is not selected, select it
+        if (seatBooked < 4) {
+          const classType = "Economy";
+          const price = "550";
+          addBookingEntry(seatNo, classType, price);
+          addBgColorById(seatNo);
+          seatBooked++;
+          calculateTotalPrice();
+          updateTotalPrice();
+          updateBookedSeatsDisplay();
+          updateGrandTotal(0);
+          updateAvaiableSeats();
+          seat.classList.add("selected");
+        } else {
+          alert("You cannot book more than 4 seats!");
+        }
+      }
+    });
+  });
+}
+
 
 // enter coupon code and calculate the grand total value
 
@@ -93,7 +126,13 @@ document.addEventListener("DOMContentLoaded", function () {
 function applyCoupon() {
   const couponInput = document.getElementById("coupon-input");
   const couponCode = couponInput.value;
-
+  
+  // Check if any seat is selected
+  const selectedSeats = document.querySelectorAll(".seat.selected");
+  if (selectedSeats.length === 0) {
+    alert("Please select at least one seat before applying the coupon.");
+    return;
+  }
   //   check the coupon code
   if (couponCode === "NEW15") {
     updateGrandTotal(15);
@@ -115,32 +154,12 @@ function updateGrandTotal(discountPercentage) {
   ).textContent = `BDT ${discountPrice.toFixed(2)}`;
 }
 
-// disable coupon field
+ // Hide the coupon input field after updating the grand total
 function disableCouponInput() {
-  const disableField = document.getElementById("coupon-field");
-  disableField.disabled = true;
+  const couponField = document.getElementById("coupon-field");
+  couponField.style.display = "none";
 }
 
-
-// Get a reference to the "Continue" button
-const continueButton = document.getElementById("closeModalButton");
-
-// Add event listener to the "Continue" button to reload the page when clicked
-continueButton.addEventListener("click", () => {
-  // window.location.reload();
-  window.scrollTo({ top: 0, behavior: "smooth" });
-  if (
-    passengerNameInput.checkValidity() &&
-    phoneNumberInput.checkValidity() &&
-    emailInput.checkValidity()
-  ) {
-    // If all fields are valid, reload the page after a delay
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    setTimeout(() => {
-      window.location.reload();
-    }, 700);
-  }
-});
 
 // form varification
 document.addEventListener("DOMContentLoaded", function () {
@@ -155,28 +174,28 @@ document.addEventListener("DOMContentLoaded", function () {
     // Check if all fields are valid
     if (!passengerNameInput.checkValidity()) {
       showAlert("Please enter a valid name (only letters and spaces).");
-      myModal.close();
+      //   myModal.close();
+      event.preventDefault;
       return;
-
     }
 
-    if (!phoneNumberInput.checkValidity()) {
-      alert("Please enter a valid phone number (10 digits).");
-      myModal.close();
+    if (phoneNumberInput.value.length !== 11) {
+      alert("Please enter a valid phone number (11 digits).");
+    //   myModal.close();
+    event.preventDefault;
       return;
-
     }
 
     if (!emailInput.checkValidity()) {
       alert("Please enter a valid email address.");
-      myModal.close();
+    //   myModal.close();
+    event.preventDefault;
       return;
-
     }
 
     // If all fields are valid, show the modal
-    else{ myModal.showModal();}
-
+    myModal.showModal();
+    event.preventDefault();
   });
 
   // Close the modal when the "Continue" button is clicked

@@ -21,3 +21,10 @@
   font-size: 18px;
   font-weight: 500;
 }
+@media screen and (max-width: 576px){
+  .seat{
+    padding:10px;
+    width: 65px; ;
+  }
+}
+
